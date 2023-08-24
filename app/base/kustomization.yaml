@@ -1,7 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+# kustomize가 변경할 대상 파일들이 있는 디렉토리를 지정
 resources:
 - ./deployment.yaml
 - ./service.yaml
-- ./hpa-patch.yaml
+- ./hpa.yaml
 - ./ingress.yaml

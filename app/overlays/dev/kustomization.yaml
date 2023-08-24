@@ -1,21 +1,28 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# base의 파일을 패치하여 배포할 네임스페이스를 지정.
 namespace: dev
 
+# base에서  name으로 지정된 모든 값에 추가할 Prefix
 namePrefix: dev-
 
+# 패치할 모든 파일의 기본 label을 dev-XX로 지정
 commonLabels:
-  app: dev-dp-apis
+  app: dev-XX
 
 resources:
 - ../../base
 
 images:
-- name: DP-APIS-IMAGE
-  newName: aimmo.azurecr.io/dev-dp-apis
+- name: IMAGE
+  newName: name.azurecr.io/dev-IMAGE
   newTag: bdf4e1cb045323067a77d344ce66cefc1cf075e4
 
+# 일괄 적용의 기능의 한계를 극복하기 위해, 특정 파일에만 적용할 패치를 선택할 때는 patches 섹션을 활용
+# base에 있는 오브젝트 중 group, version, kind, name(오브젝트의 이름, metadata.name 값)을 지정하고 적용할 patch 파일의 이름을 지정
+# patch의 옵션에는 add, replace, copy, move, remove, test가 있음.
+# # test: check if the specified node has the specified value, if the value differs it will throw an error
 patches:
 - path: ingress-patch.yaml
   target:
