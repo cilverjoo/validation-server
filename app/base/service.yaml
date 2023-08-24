@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dp-apis
+spec:
+  type: NodePort
+  ports:
+  - port: 5000

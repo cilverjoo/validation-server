@@ -1,0 +1,10 @@
+- op: replace
+  path: /spec/rules/0/host
+  value: dev-dp-api.bluewhale.team
+- op: replace
+  path: /spec/tls/0/secretName
+  value: apis-dev-tls
+- op: replace
+  path: /spec/tls/0/hosts
+  value:
+    - dev-dp-api.bluewhale.team

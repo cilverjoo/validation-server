@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-apis
+spec:
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: dp-apis
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    spec:
+      containers:
+      - name: dp-apis
+        image: DP-APIS-IMAGE:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "1"
+            memory: "1000Mi"
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe: 
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 15 # 첫 readinessProbe는 30초 기다림 
+          periodSeconds: 10 # 이 값을 주기로 path, port로 GET 요청을 날린다.
+        lifecycle: #  postStart 와 preStop 을 통해 컨테이너 라이프사이클의 특정 지점에서 실행할 이벤트를 트리거
+          preStop: # preStop은 컨테이너가 Terminated상태에 들어가기 전에 실행
+            exec:
+              command: ["/bin/sleep", "30"] # 종료된 컨테이너에 트래픽이 유입되지 않도록 종료상태에 들어갈 경우 내부적으로 sleep을 준다.

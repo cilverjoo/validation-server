@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: production
+
+commonLabels:
+  app: dp-apis
+
+resources:
+- ../../base
+
+images:
+- name: DP-APIS-IMAGE
+  newName: aimmo.azurecr.io/dp-apis
+  newTag: dab32384e061e81b5255b224e82bf38a7974c260
+
+patches:
+- path: ingress-patch.yaml
+  target:
+    group: networking.k8s.io
+    kind: Ingress
+    name: apis-ingress
+    version: v1
