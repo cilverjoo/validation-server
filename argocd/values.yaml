@@ -159,7 +159,7 @@ configs:
     annotations: {}
 
     # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
-    url: https://dp-server.koreacentral.cloudapp.azure.com/argo
+    url: <ArgoCD URL>
 
     # -- The name of tracking label used by Argo CD for resource pruning
     # @default -- Defaults to app.kubernetes.io/instance
@@ -188,8 +188,8 @@ configs:
       connectors:
       - config:
           issuer: https://accounts.google.com
-          clientID: 155525563057-dgn7rk3oo4i54sc85ei1ii6j96k9bu7k.apps.googleusercontent.com
-          clientSecret: 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
+          clientID: <GOOGLE_OAUTH_CLIENT_ID>
+          clientSecret: <GOOGLE_OAUTH_CLIENT_SECRET>
           issuer: https://accounts.google.com
         type: oidc
         id: google
@@ -281,7 +281,7 @@ configs:
       p, role:org-admin, repositories, *, *, allow
       p, role:org-admin, logs, get, *, allow
       p, role:org-admin, exec, create, */*, allow
-      g, eden@aimmo.co.kr, role:org-admin
+      g, developer@email.com, role:org-admin
 
     # Policy rules are in the form:
     #  p, subject, resource, action, object, effect
@@ -1697,7 +1697,7 @@ server:
     # -- The name of the Secret that will be automatically created and managed by this Certificate resource
     secretName: argocd-server-tls
     # -- Certificate primary domain (commonName)
-    domain:  dp-server.koreacentral.cloudapp.azure.com
+    domain:  <ArgoCD URL>
     # -- Certificate Subject Alternate Names (SANs)
     additionalHosts: []
     # -- The requested 'duration' (i.e. lifetime) of the certificate.
@@ -1833,7 +1833,7 @@ server:
     ingressClassName: "nginx"
 
     hosts:
-      - dp-server.koreacentral.cloudapp.azure.com
+      - <ArgoCD URL>
 
     # -- List of ingress paths
     paths:
@@ -1855,7 +1855,7 @@ server:
     # -- Ingress TLS configuration
     tls:
       - host: 
-        - dp-server.koreacentral.cloudapp.azure.com
+        - <ArgoCD URL>
         secretName: argocd-server-tls
 
     # -- Uses `server.service.servicePortHttps` instead `server.service.servicePortHttp`
